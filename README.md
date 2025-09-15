@@ -1,5 +1,16 @@
 # Node.js Blog API - A 10-Day Learning Journey
 
+--- 
+Will be changed to 5-6 days:
+- days 1-3 could be joined as basic info for --> day 0 "Make simple CRUD",
+- days 4-5 conection of DB and migration of curent CRUD to use mongoose, --> day 1 "DB comection"
+- days 6-7 --> day 2 "APIFeatures , Error handling + middleware, catchAsync"
+- day 8 --> day 3
+- day 9 --> day 4
+- day 10 + more advanced features --> day 5
+
+---
+
 This repository documents the creation of a comprehensive REST API for a blog, built from scratch over an intensive 10-day sprint. The project serves as a practical, hands-on guide to modern backend development using the Node.js ecosystem, covering everything from basic server setup to advanced features like authentication and security best practices.
 
 ---
