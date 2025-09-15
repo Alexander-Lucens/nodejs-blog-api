@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
@@ -15,9 +16,14 @@ exports.signup = catchAsync( async (req, res, next) => {
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password,
+		passwordConfirm: req.body.passwordConfirm
 	});
 
 	const token = signToken(newUser._id);
+
+	// Hide password from user in response
+	newUser.password = undefined;
+	newUser.passwordConfirm = undefined;
 
 	res.status(201).json({
 		status: 'success',
@@ -44,4 +50,27 @@ exports.login = catchAsync( async (req, res, next) => {
 		status: 'success',
 		token
 	});
+});
+
+exports.protect = catchAsync( async (req, res, next) => {
+
+	let token;
+	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+		token = req.headers.authorization.split(' ')[1];
+	}
+
+	if (!token) {
+		return next(new AppError('You are not logged in! Please log in to get access.', 401));
+	}
+
+	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+	const currentUser = await User.findById(decoded.id);
+
+	if (!currentUser) {
+		return next(new AppError('User with this token is no longer exits.', 401));
+	}
+
+	req.user = currentUser;
+	next();
 });

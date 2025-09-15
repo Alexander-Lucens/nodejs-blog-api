@@ -1,22 +1,8 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-
-dotenv.config({ path: './.env' });
-
-const PORT = process.env.PORT || 3000;
+const postRoutes = require('./routes/postRoutes');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
-
-const DB_URL = process.env.DB_URL
-		.replace('<USER>', process.env.DB_USER)
-		.replace('<PASSWORD>', process.env.DB_PASSWORD);
-
-mongoose.connect(DB_URL).then(() => console.log('DB sucesfuly connected!'));
- 
-const postRoutes = require('./routes/postRoutes');
-
-const userRouter = require('./routes/userRoutes');
 
 app.use(express.json());
 
@@ -36,6 +22,4 @@ app.use((err, req, res, next) => {
 	}); 
 });
 
-app.listen(PORT, () => {
-	console.log(`Server run on http://127.0.0.1:${PORT}`);
-});
+module.exports = app;

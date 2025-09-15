@@ -19,7 +19,7 @@ exports.getAllPosts = catchAsync( async (req, res, next) => {
 	const feature = new APIFeatures(Post.find(), req.query).filter().sort().fields().paginate();
 
 	const posts = await feature.query;
-
+	
 	res.status(200).json({
 		status: 'success',
 		size: posts.length,
