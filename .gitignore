@@ -1,0 +1,17 @@
+# External duplication of gitignore
+# Each of 'day'-s is a separated project
+
+# Environment variables
+.env
+config.env
+
+# Dependencies
+/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
