@@ -29,9 +29,9 @@ exports.getPostById = catchAsync( async (req, res) => {
 	if (!post) return (res.status(404).json({status: 'fail', message: 'Post not found!'}));
 	
 	res.status(200).json({
-                status: 'success',
-                data: post
-        });
+		status: 'success',
+		data: post
+	});
 });
 
 // Create section
@@ -41,9 +41,9 @@ exports.createPost = catchAsync( async (req, res) => {
 	const newPost = await Post.create(req.body)
 
 	res.status(201).json({
-                status: 'success',
-                data: newPost
-        });
+		status: 'success',
+		data: newPost
+	});
 
 });
 
@@ -58,9 +58,9 @@ exports.updatePostById = catchAsync( async (req, res) => {
 	if (!post) return (res.status(404).json({status: 'fail', message: 'Post not found!'}));
 	
  	res.status(200).json({
-                status: 'success',
-                data: post
-        });
+		status: 'success',
+		data: post
+	});
 });
 
 // Delete section
@@ -69,9 +69,9 @@ exports.deletePostById = catchAsync( async (req, res) => {
 
 	const post = await Post.findByIdAndDelete(req.params.id);
 
-        if (!post) return (res.status(404).json({status: 'fail', message: 'Post not found!'}));
-	
-        res.status(204).json();
+	if (!post) return (res.status(404).json({status: 'fail', message: 'Post not found!'}));
+
+	res.status(204).json();
 });
 
 
