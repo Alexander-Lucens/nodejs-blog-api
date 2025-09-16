@@ -1,4 +1,4 @@
-const connectDB = require('./config/database');
+const connectDB = require('./config/database.js');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
@@ -8,9 +8,9 @@ const app = require('./app');
 
 const startServer = async () => {
 	await connectDB();
-
+		
 	app.listen(PORT, () => {
-		console.log(`Server run on http://127.0.0.1:${PORT}`);
+		console.log(`Server runs on htttp://127.0.0.1:${PORT}`);
 	});
 };
 
