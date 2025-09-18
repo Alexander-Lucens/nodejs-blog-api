@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.createPost = catchAsync( async (req, res, next) => {
 	const newPost = await Post.create(req.body);
@@ -12,10 +13,11 @@ exports.createPost = catchAsync( async (req, res, next) => {
 
 exports.getAllPosts = catchAsync( async (req, res, next) => {
 	
-	// const feature = APIFeature(Post.find(), req.qury).filter().sort().fields().paginate();
-	// const posts await feature.query;
+	const feature = new APIFeatures(Post.find(), req.query).filter().fields().sort().paginate();
 
-	const posts = await Post.find();
+	const posts = await feature.query;
+
+	// const posts = await Post.find();
 	
 	res.status(200).json({
                 status: 'success',
