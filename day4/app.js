@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/posts', postRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.use((err, req, res, next) => {
 	console.error('ERROR: ', err);

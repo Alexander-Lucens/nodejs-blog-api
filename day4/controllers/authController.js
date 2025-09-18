@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
+const { validate } = require('../models/postModel');
 
 const signToken = id => {
 	return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -12,12 +13,7 @@ const signToken = id => {
 };
 
 exports.signup = catchAsync( async (req, res, next) => {
-	const newUser = await User.create({
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password,
-		passwordConfirm: req.body.passwordConfirm
-	});
+	const newUser = await User.create(req.body);
 
 	newUser.password = undefined;
 	newUser.passwordConfirm = undefined;
@@ -38,9 +34,9 @@ exports.login = catchAsync( async (req, res, next) => {
 
 	const user = await User.findOne({ email }).select('+password');
 
-	const correct = user ? await bcrypt.compare(user.password, password) : false;
-
-	if (!correct || !user) return next(new AppError('Incorrect email or password!', 401));
+	if (!user || !(await bcrypt.compare(password, user.password))) {
+		return next(new AppError('Incorrect email or password!', 401));
+	}
 
 	const token = signToken(user._id);
 
@@ -53,8 +49,8 @@ exports.login = catchAsync( async (req, res, next) => {
 exports.protect = catchAsync( async (req, res, next) => {
 
 	let token;
-	if (req.headers.autharization && req.headers.autharization.startsWith('Bearer')) {
-		token = req.headers.autharization.split(' ')[1];
+	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+		token = req.headers.authorization.split(' ')[1];
 	}
 
 	if (!token) {
@@ -63,9 +59,9 @@ exports.protect = catchAsync( async (req, res, next) => {
 
 	const decodedUser = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-	const currentUser = await User.findById(decodedUser._id);
+	const currentUser = await User.findById(decodedUser.id);
 
-	if (!currentUser) return next(new AppError('User with this token current is not exist!', 401));
+	if (!currentUser) return next(new AppError('User with this token current is not exist.', 401));
 
 	req.user = currentUser;
 

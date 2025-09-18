@@ -37,14 +37,18 @@ exports.getPostById = catchAsync( async (req, res, next) => {
 });
 
 exports.updatePostById = catchAsync( async (req, res, next) => {
-	const post = await Post.findByIdAndUpdate(req.params.id);
 
-        if (!post) return (res.status(404).json({ status: 'fail', message: 'Post not found!'}));
+	const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	});
 
-        res.status(200).json({
-                status: 'success',
-                data: post
-        });
+	if (!post) return (res.status(404).json({ status: 'fail', message: 'Post not found!'}));
+
+	res.status(200).json({
+			status: 'success',
+			data: post
+	});
 });
 
 exports.deletePostById = catchAsync( async (req, res, next) => {
