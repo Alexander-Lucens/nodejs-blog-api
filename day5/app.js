@@ -2,11 +2,6 @@ const express = require('express');
 
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const xss = require('xss-clean');
-const mongoSanitize = require('express-mongo-sanitize');
-// Connect routes but cot use
-const postRoutes = require('./routes/postRoutes');
-const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -24,11 +19,8 @@ const limiter = rateLimit({
 }); 
 app.use('/api', limiter);
 
-// Data sanitization against query injection
-app.use(mongoSanitize());
-
-// Data sanitization against XSS (Cross-Site Scripting);
-app.use(xss());
+const postRoutes = require('./routes/postRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);

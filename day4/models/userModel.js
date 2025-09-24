@@ -25,16 +25,17 @@ const userSchema = mongoose.Schema({
 	},
 	passwordConfirm: {
                 type: String,
-                required: [
-			function() { return (this.isNew || this.isModified('password')) },
-			'User Must have a Password!'],
-		select: false,
-		validate: {
-			validator: function(el) {
-				return (el === this.password);
-			},
-			message: 'Password are not the same!'
-		}
+                required: [ function() { 
+					return (this.isNew || this.isModified('password')) },
+					'User Must have a Password!'
+				],
+				select: false,
+				validate: {
+					validator: function(el) {
+						return (el === this.password);
+					},
+					message: 'Password are not the same!'
+				}
         }
 });
 
