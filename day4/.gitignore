@@ -1,7 +1,0 @@
-# ignore all types of used .env
-.env
-config.env
-
-/node_modules
-
-.DS_Store

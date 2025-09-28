@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-const postSchema = new mongoose.Schema({
+const postSchema = mongoose.Schema({
 	title: {
 		type: String,
-		required: [true, 'Title can\'t be empty!'],
+		required: [true, "Post must have title!"],
 		trim: true
 	},
 	body: {
-		type: String,
-		required: [true, 'Post body is required!']
-	},
+                type: String,
+                required: [true, "Post must have Body!"]
+        },
 	createdAt: {
 		type: Date,
 		default: Date.now()

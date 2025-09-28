@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-// const { isEmail } = require('validator');
+const validator = require('validator');
 
 
 const userSchema = mongoose.Schema({
@@ -16,12 +16,13 @@ const userSchema = mongoose.Schema({
 	},
 	email: {
 		type: String,
-		require: [true, 'Provide email!'],
+		required: [true, 'Provide email!'],
 		lowercase: true,
-		// validate: {
-		// 	validator: isEmail(this.email),
-		// 	message: "Providet email is incorrect!"
-		// }
+		unique: true,
+		validate: {
+			validator: validator.isEmail,
+			message: "Providet email is incorrect!"
+		}
 	},
 	password: {
 		type: String,
@@ -38,7 +39,7 @@ const userSchema = mongoose.Schema({
 			validator: function(el) { return (el === this.password)},
 			message: "Password not mutch passwordConfirmation"
 		}
-        }
+    }
 });
 
 userSchema.pre('save', async function(next) {

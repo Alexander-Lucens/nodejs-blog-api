@@ -1,7 +1,7 @@
 class AppError {
 	constructor(message, statusCode) {
 		let newError = new Error(message);
-		newError.status = statusCode;
+		newError.statusCode = statusCode;
 		return newError;
 	};
 };
