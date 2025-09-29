@@ -52,12 +52,12 @@ exports.updatePostById = catchAsync( async (req, res, next) => {
 		new: true
 	});
 
-        if (!post) return next(new AppError('Post not found!', 404));
+    if (!post) return next(new AppError('Post not found!', 404));
 	
 	res.status(200).json({
-                status: 'success',
-                data: post
-        });
+		status: 'success',
+		data: post
+	});
 });
 
 exports.deletePostById = catchAsync( async (req, res, next) => {
