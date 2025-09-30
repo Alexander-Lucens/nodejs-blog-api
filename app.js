@@ -1,4 +1,5 @@
 const express = require('express');
+const AppError = require('./utils/AppError')
 
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -26,7 +27,17 @@ app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 
 app.use((err, req, res, next) => {
-	console.error('ERROR: ', err);
+	const error = { ...err };
+
+	if (err.name === 'ValidationError') {
+		err = new AppError('Invalid input data.', 400);
+		err.status = 'fail';
+	}
+
+	if (err.name === 'CastError') {
+		err = new AppError(`Invalid ${error.path}: ${error.value}.`, 400);
+		err.status = 'fail';
+	}
 
 	err.statusCode = err.statusCode || 500;
 	err.status = err.status || 'error';
@@ -34,14 +45,14 @@ app.use((err, req, res, next) => {
 	if (process.env.NODE_ENV === 'production') {
 		res.status(err.statusCode).json({
 			status: err.status,
-			message: "Something went wrong!"
+			message: err.message
 		});
 	} else {
 		res.status(err.statusCode).json({
 			status: err.status,
-			error: err,
 			message: err.message,
-			stack: err.stack
+			error: err,
+			stack: error.stack
 		});
 	}
 });

@@ -5,13 +5,17 @@ const AppError = require('../utils/AppError');
 
 
 exports.createPost = catchAsync ( async (req, res, next) => {
-	const newPost = await Post.create(req.body);
-
-	if (!newPost) return next(new AppError('Post cant be created!', 400));
+	const newPost = await Post.create({
+		title: req.body.title,
+		body: req.body.body,
+		author: req.user._id
+	});
 
 	res.status(201).json({
 		status: 'success',
-		data: newPost
+		data: {
+			post: newPost
+		}
 	});
 });
 
@@ -26,7 +30,10 @@ exports.getAllPosts = catchAsync( async (req, res, next) => {
 
 	res.status(200).json({
                 status: 'success',
-                data: posts
+                data: {
+					length: posts.length,
+					posts
+				}
         });
 });
 
@@ -40,7 +47,9 @@ exports.getPostById = catchAsync( async (req, res, next) => {
 
 	res.status(200).json({
                 status: 'success',
-                data: post
+                data: {
+					post
+				}
         });
 });
 
@@ -56,16 +65,20 @@ exports.updatePostById = catchAsync( async (req, res, next) => {
 	
 	res.status(200).json({
 		status: 'success',
-		data: post
+		data: {
+			post
+		}
 	});
 });
 
 exports.deletePostById = catchAsync( async (req, res, next) => {
-        const id = req.params.id;
+    const id = req.params.id;
 
 	const post = await Post.findByIdAndDelete(id);
 
-        if (!post) return next(new AppError('Post not found!', 404));
+	if (!post) return next(new AppError('Post not found!', 404));
 
-        res.status(204).json({ });
+	if (req.user.role !== 'admin') return next(new AppError('Permission denied!', 403));
+
+	res.status(204).json({ });
 });

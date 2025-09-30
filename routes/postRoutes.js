@@ -6,7 +6,7 @@ const { protect } = require('../controllers/authControllers');
 
 routes.route('/')
 	.get(postControllers.getAllPosts)
-	.post(postControllers.createPost);
+	.post( protect, postControllers.createPost);
 
 routes.route('/:id')
 	.get( protect, postControllers.getPostById)
