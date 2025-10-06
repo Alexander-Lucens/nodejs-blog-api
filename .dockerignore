@@ -1,0 +1,16 @@
+# Saem as .gitignore but to avoud add all that to docker
+
+# Environment variables
+.env
+config.env
+
+# Dependencies
+/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
