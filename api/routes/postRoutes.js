@@ -9,7 +9,7 @@ routes.route('/')
 	.post( protect, postControllers.createPost);
 
 routes.route('/:id')
-	.get( protect, postControllers.getPostById)
+	.get( postControllers.getPostById)
 	.patch( protect, postControllers.updatePostById)
 	.delete( protect, postControllers.deletePostById);
 

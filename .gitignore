@@ -2,11 +2,22 @@
 # Each of 'day'-s is a separated project
 
 # Environment variables
-.env
-config.env
+api/.env
+api/.env.local
+api/config.env
+
+client/.env
+client/.env.local
+client/config.env
+
+client/.next
 
 # Dependencies
 /node_modules
+
+api/node_modules
+client/node_modules
+
 
 # Logs
 npm-debug.log*

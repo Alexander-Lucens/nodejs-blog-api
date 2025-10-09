@@ -7,9 +7,13 @@ const postSchema = mongoose.Schema({
 		trim: true
 	},
 	body: {
-                type: String,
-                required: [true, "Post must have Body!"]
-        },
+		type: String,
+		required: [true, "Post must have Body!"]
+	},
+	author: {
+		type: String,
+		required: [true, "Please set Author!"]
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now()

@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const AppError = require('./utils/AppError')
 
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
 const app = express();
+
+app.use(cors());
 
 // Set security HTTP headers
 app.use(helmet());
