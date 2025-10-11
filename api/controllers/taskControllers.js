@@ -1,11 +1,11 @@
-const Post = require('../models/postModel');
+const Task = require('../models/taskModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/AppError');
 
 
 exports.createPost = catchAsync ( async (req, res, next) => {
-	const newPost = await Post.create({
+	const newTask = await Task.create({
 		title: req.body.title,
 		body: req.body.body,
 		author: req.user._id

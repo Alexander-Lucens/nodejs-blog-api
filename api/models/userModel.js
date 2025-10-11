@@ -4,7 +4,20 @@ const validator = require('validator');
 
 
 const userSchema = mongoose.Schema({
-	role: {
+	projects: [
+		{
+			project: {
+				type: mongoose.Schema.ObjectId,
+				ref: 'Project'
+			},
+			role: {
+				type: String,
+				enum: ['owner', 'moder', 'plebs'],
+				default: 'plebs'
+			}
+		}
+	],
+	globalPermission: {
 		type: String,
 		enum: ['user','admin'],
 		default: 'user'
@@ -32,12 +45,12 @@ const userSchema = mongoose.Schema({
 	},
 	passwordConfirm: {
                 type: String,
-                required: [true, 'Provide strong passwordConfirmation at least 8 chars long!'],
+                required: [true, 'Please confirm your password!'],
                 minlength: 8,
                 select: false,
 		validate: {
 			validator: function(el) { return (el === this.password)},
-			message: "Password not mutch passwordConfirmation"
+			message: "Password do not match!"
 		}
     }
 });
