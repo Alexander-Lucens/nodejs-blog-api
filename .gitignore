@@ -2,6 +2,8 @@
 # Each of 'day'-s is a separated project
 
 # Environment variables
+*.env
+*/*.env
 api/.env
 api/.env.local
 api/config.env
@@ -14,7 +16,7 @@ client/.next
 
 # Dependencies
 /node_modules
-
+*/node_modules
 api/node_modules
 client/node_modules
 
@@ -26,3 +28,4 @@ yarn-error.log*
 
 # System files
 .DS_Store
+*/.DS_Store

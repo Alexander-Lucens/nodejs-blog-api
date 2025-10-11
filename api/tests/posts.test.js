@@ -13,7 +13,7 @@ let testAdminUserId;
 
 const dotenv = require('dotenv');
 
-dotenv.config({ path: ".env"});
+dotenv.config({ path: "../.env"});
 
 beforeAll(async () => {
     const TEST_DB_URL = process.env.TEST_DB_URL;
@@ -60,7 +60,7 @@ describe('Post API', () => {
     // --- CREATE ---
     // --- TEST CREATE success /api/posts/:id (token required) ---
     it('should Create post & return 201', async () => {
-        const post = { title: 'Original Title', body: 'Original Body' };
+        const post = { author: testUserId, title: 'Original Title', body: 'Original Body' };
 
         const res = await request(app)
             .post(`/api/posts`)
@@ -75,7 +75,7 @@ describe('Post API', () => {
 
     // --- TEST CREATE error 400, without title /api/posts/:id (token required) ---
     it('should Create post & return 201', async () => {
-        const post = { body: 'Original Body' };
+        const post = { author: testUserId, body: 'Original Body' };
 
         const res = await request(app)
             .post(`/api/posts`)
@@ -89,7 +89,7 @@ describe('Post API', () => {
 
     // --- TEST CREATE error 400, without body /api/posts/:id (token required) ---
     it('should Create post & return 201', async () => {
-        const post = { title: 'Original Title' };
+        const post = { author: testUserId, title: 'Original Title' };
 
         const res = await request(app)
             .post(`/api/posts`)
@@ -104,7 +104,7 @@ describe('Post API', () => {
     // --- GET ---
     // --- TEST GET /api/posts ---
     it('should GET all posts', async () => {
-        await Post.create({ title: 'Test Post 1', body: 'This is a test.' });
+        await Post.create({ author: testUserId, title: 'Test Post 1', body: 'This is a test.' });
         const res = await request(app).get('/api/posts');
         expect(res.statusCode).toEqual(200);
         expect(res.body.data.posts[0].title).toBe('Test Post 1');
@@ -112,7 +112,7 @@ describe('Post API', () => {
 
     // --- TEST GET ONE /api/posts/:id (token required) ---
     it('should CREATE a new post and try to access it', async () => {
-        const post = await Post.create({ title: 'Original Title', body: 'Original Body' });
+        const post = await Post.create({ author: testUserId, title: 'Original Title', body: 'Original Body' });
 
         const res = await request(app)
             .get(`/api/posts/${post._id}`)
@@ -135,7 +135,7 @@ describe('Post API', () => {
 
     // --- TEST PATCH /api/posts/:id (token required) ---
     it('should PATCH a post by ID', async () => {
-        const post = await Post.create({ title: 'Original Title', body: 'Original Body' });
+        const post = await Post.create({ author: testUserId, title: 'Original Title', body: 'Original Body' });
         const updatedData = { title: 'Updated Title' };
 
         const res = await request(app)
@@ -161,7 +161,7 @@ describe('Post API', () => {
 
     // --- TEST DELETE /api/posts/:id (token required) ---
     it('should DELETE a post by ID', async () => {
-        const post = await Post.create({ title: 'To Be Deleted', body: '...' });
+        const post = await Post.create({ author: testUserId, title: 'To Be Deleted', body: '...' });
 
         const res = await request(app)
             .delete(`/api/posts/${post._id}`)
@@ -175,7 +175,7 @@ describe('Post API', () => {
 
     // --- TEST DELETE /api/posts/:id (token required) ---
     it('should fail DELETE, cause user is not admin', async () => {
-        const post = await Post.create({ title: 'To Be Deleted', body: '...' });
+        const post = await Post.create({ author: testUserId, title: 'To Be Deleted', body: '...' });
 
         const res = await request(app)
             .delete(`/api/posts/${post._id}`)

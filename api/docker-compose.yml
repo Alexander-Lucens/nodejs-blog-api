@@ -1,17 +1,21 @@
 services:
   api:
+    # env_file:
+    # - ../.env
+
     build: .
 
     ports: 
       - "3000:3000"
     
     environment:
-      - PORT=3000
-      - NODE_ENV=development
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
 
-      - DB_URL=mongodb://mongo:27017/blog-api 
-      - JWT_SECRET=your-super-secret-jwt-key-that-is-long
-      - JWT_EXPIRES_IN=90d
+      - DB_URL=${TEST_DB_URL}
+      # mongodb://mongo:27017/blog-api$
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 
     depends_on:
       - mongo
