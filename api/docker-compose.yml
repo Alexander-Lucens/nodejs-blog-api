@@ -1,7 +1,7 @@
 services:
   api:
-    # env_file:
-    # - ../.env
+    env_file:
+    - ../.env
 
     build: .
 
@@ -13,7 +13,6 @@ services:
       - NODE_ENV=${NODE_ENV}
 
       - DB_URL=${TEST_DB_URL}
-      # mongodb://mongo:27017/blog-api$
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 

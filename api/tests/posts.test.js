@@ -11,9 +11,10 @@ let testUserId;
 let tokenAdmin;
 let testAdminUserId;
 
-const dotenv = require('dotenv');
+const path = require("path");
+const dotenv = require("dotenv");
 
-dotenv.config({ path: "../.env"});
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 beforeAll(async () => {
     const TEST_DB_URL = process.env.TEST_DB_URL;
